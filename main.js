@@ -157,6 +157,7 @@ let bowling = {
 
 
 
+
 bowling.conta_giocatori();
 
 console.log(bowling.conta_giocatori());
