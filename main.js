@@ -30,123 +30,84 @@
 
 
 let bowling = {
-    
-    'giocatori' : [
-        [`Livio`, [], []],
-        [`Paola`, [], []],
-        [`Filippo`, [], []],
-        [`Giuseppe`, [], []],
+    'players': [
+        {'name': 'Livio', 'scores': []},
+        {'name': 'Paola', 'scores': []},
+        {'name': 'Filippo', 'scores': []},
+        {'name': 'Giuseppe', 'scores': []}
     ],
     
     // metodo per mostrare tutti i partecipanti
     'mostra_partecipanti' : function () {
         
-        this.giocatori.forEach( (giocatori)=> console.log(giocatori) ); 
-    },
-    
-    // metodo per contare i giocatori partecipanti
-    'conta_giocatori' : function () {
-        
-        let partecipanti = this.giocatori.length;
-        
-        return partecipanti
-        
+        this.players.forEach( (giocatori)=> console.log(giocatori) ); 
     },
     
     // metodo per aggiungere un giocatore
     
-    'aggiungi_giocatore' : function (nuovo_giocatore) {
-        
-        this.giocatori.push([nuovo_giocatore, [], []])
-        
-        
-    },
     
     
-    // metodo per simulare la partita
+    // metodo per simulare partita
     
     'simula_partita' : function () {
         
+        this.players.forEach( (giocatore) => {
+            
+            for (let i = 1; i <= 10; i++) {
+                giocatore.scores.push(Math.floor(Math.random() * (10 - 1 +1) + 1))
+            }
+            // console.log(giocatore.scores);
+            
+            
+            
+        }  )
         
-        for (let i = 1; i <=10; i++) {
-            let tiro = Math.floor(Math.random() * (10 - 1 +1) + 1);      
-            this.giocatori[0][1].push(tiro); 
+    },
+    
+    // metodo per aggiungere giocatore
+    
+    'aggiungi_giocatore' : function (nuovo_giocatore) {
+        
+        let newPlayer = {'name': nuovo_giocatore, 'scores': []};
+        for ( let index = 1; index <= 10; index++) {
+            newPlayer.scores.push(Math.floor(Math.random() * (10 - 1 +1) + 1))
         }
-        for (let i = 1; i <=10; i++) {
-            let tiro = Math.floor(Math.random() * (10 - 1 +1) + 1);      
-            this.giocatori[1][1].push(tiro); 
-        }
-        for (let i = 1; i <=10; i++) {
-            let tiro = Math.floor(Math.random() * (10 - 1 +1) + 1);      
-            this.giocatori[2][1].push(tiro); 
-        }
-        for (let i = 1; i <=10; i++) {
-            let tiro = Math.floor(Math.random() * (10 - 1 +1) + 1);      
-            this.giocatori[3][1].push(tiro); 
-        }
-        for (let i = 1; i <=10; i++) {
-            let tiro = Math.floor(Math.random() * (10 - 1 +1) + 1);      
-            this.giocatori[4][1].push(tiro); 
-        }
+        this.players.push(newPlayer)
+        // console.log(newPlayer.scores);
         
     },
     
     
-    // metodo per ordinare in ordine decrescente
+    // metodo per calcolare il punteggio finale
     
-    'ordine_punteggio' : function () {
+    'punteggio_finale': function() {
         
-        console.log( `Il Giocatore ${this.giocatori[0][0]} in 10 tiri ha totalizzato i punteggi (in ordine decr.) ${this.giocatori[0][1].sort(( a, b )=> b-a ) }. ` );
-        console.log( `Il Giocatore ${this.giocatori[1][0]} in 10 tiri ha totalizzato i punteggi (in ordine decr.) ${this.giocatori[1][1].sort(( a, b )=> b-a ) }. ` );
-        console.log( `Il Giocatore ${this.giocatori[2][0]} in 10 tiri ha totalizzato i punteggi (in ordine decr.) ${this.giocatori[2][1].sort(( a, b )=> b-a ) }. ` );
-        console.log( `Il Giocatore ${this.giocatori[3][0]} in 10 tiri ha totalizzato i punteggi (in ordine decr.) ${this.giocatori[3][1].sort(( a, b )=> b-a ) }. ` );
-        console.log( `Il Giocatore ${this.giocatori[4][0]} in 10 tiri ha totalizzato i punteggi (in ordine decr.) ${this.giocatori[4][1].sort(( a, b )=> b-a ) }. ` );
+        this.players.forEach( (giocatore)=> {
+            let tot = giocatore.scores.reduce( (acc, num ) => acc + num  )
+            
+            giocatore.totale = tot;
+        })
         
-        
-    },
-    
-    
-    // metodo per sommare i punti
-    
-    'accumula_punteggi_finali' : function () {
-        
-        
-        this.giocatori[0][2] = this.giocatori[0][1].reduce ( (acc, n) => acc + n );
-        this.giocatori[1][2] = this.giocatori[1][1].reduce ( (acc, n) => acc + n );
-        this.giocatori[2][2] = this.giocatori[2][1].reduce ( (acc, n) => acc + n );
-        this.giocatori[3][2] = this.giocatori[3][1].reduce ( (acc, n) => acc + n );
-        this.giocatori[4][2] = this.giocatori[4][1].reduce ( (acc, n) => acc + n );
-        
-        
+        this.players.sort( (a, b)=> b.totale - a.totale  )
         
     },
     
     
-    // metodo per sommare i punti
-    
-    'somma_punti' : function () {
-        console.log( `Il Giocatore ${this.giocatori[0][0]} in 10 tiri ha totalizzato un totale di ${this.giocatori[0][2]}. ` );
-        console.log( `Il Giocatore ${this.giocatori[1][0]} in 10 tiri ha totalizzato un totale di ${this.giocatori[1][2]}. ` );
-        console.log( `Il Giocatore ${this.giocatori[2][0]} in 10 tiri ha totalizzato un totale di ${this.giocatori[2][2]}. ` );
-        console.log( `Il Giocatore ${this.giocatori[3][0]} in 10 tiri ha totalizzato un totale di ${this.giocatori[3][2]}. ` );
-        console.log( `Il Giocatore ${this.giocatori[4][0]} in 10 tiri ha totalizzato un totale di ${this.giocatori[4][2]}. ` );
+    // metodo per decretare vincitore
+    'vincitore' : function () {
+        let vincitore = this.players[0];
+        console.log(`Il vincitore è ${vincitore.name} con ${vincitore.totale}`);
         
     },
     
     
-    
-    
-    
+    // metodo per stilare classifica
     'classifica' : function () {
-        
-        
-        let classifica = [ this.giocatori[0][2], this.giocatori[1][2], this.giocatori[2][2], this.giocatori[3][2], this.giocatori[4][2] ]
-        
-        classifica.sort( (a, b)=> b-a )
-        
-        
-        console.log(classifica);
-        
+        console.log(`Classifica finale`);
+        this.players.forEach(  giocatore=> {
+            console.log(`${giocatore.name} con ${giocatore.totale} punti`);
+            
+        } )
         
     }
     
@@ -157,29 +118,15 @@ let bowling = {
 
 
 
-
-bowling.conta_giocatori();
-
-console.log(bowling.conta_giocatori());
-
-bowling.aggiungi_giocatore(`David`);
-
-bowling.aggiungi_giocatore(`Astrubale`)
-
 bowling.simula_partita();
 
+bowling.aggiungi_giocatore(`Luigi`);
 
+bowling.aggiungi_giocatore(`Carlo`);
 
-bowling.mostra_partecipanti();
+bowling.punteggio_finale();
 
-bowling.ordine_punteggio();
-
-bowling.accumula_punteggi_finali();
-
-bowling.somma_punti();
-
-
-
+bowling.vincitore();
 
 bowling.classifica();
 
@@ -190,6 +137,8 @@ bowling.classifica();
 
 
 
+
+bowling.mostra_partecipanti();
 console.log(bowling);
 
 
